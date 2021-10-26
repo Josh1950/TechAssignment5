@@ -1,0 +1,89 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+
+namespace Election2
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+
+
+            //dictonary for candidate name and party
+            Dictionary<string, string> candidates = new Dictionary<string, string>();
+
+
+			int n = int.Parse(Console.ReadLine());
+
+            //the space to input name and party for (n)
+            for (int i = 0; i < n; i++)
+            {
+                string name = Console.ReadLine();
+                string party = Console.ReadLine();
+                candidates.Add(name, party);
+            }
+
+
+            //the ballot Dictionary
+            Dictionary<string, int> ballots = new Dictionary<string, int>();
+
+
+            foreach (KeyValuePair<string, string> candidate in candidates)
+            {
+
+                ballots.Add(candidate.Key, 0);
+
+            }
+
+
+            //the number of ballots
+            int m = int.Parse(Console.ReadLine());
+
+            //inputting ballots
+            for (int i = 0; i < m; i++)
+            {
+                string nameOnBallot = Console.ReadLine();
+
+                if (candidates.ContainsKey(nameOnBallot))
+                    ballots[nameOnBallot] = ballots[nameOnBallot] + 1;
+            }
+
+
+            //find highest number of votes
+            int voteMax = ballots.Values.Max();
+
+            //to set the variables that will be used
+            int countWinners = 0;
+            string winner = "";
+            string winningParty = "";
+
+            foreach (KeyValuePair<string, int> ballot in ballots)
+            {
+
+                if (ballot.Value == voteMax)
+                {
+                    countWinners += 1;
+                    winner = ballot.Key;
+                }
+
+                else
+                    continue;
+
+            }
+
+
+            //if countWinners gives back more than one solution feedback tie
+            if (countWinners == 1)
+            {
+                winningParty = candidates[winner];
+                Console.WriteLine(winningParty);
+            }
+
+            else if (countWinners > 1)
+                Console.WriteLine("tie");
+
+
+        }
+    }
+}
